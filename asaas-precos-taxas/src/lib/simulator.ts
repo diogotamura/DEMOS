@@ -22,9 +22,12 @@ export type SimulationResult = {
   installmentAmount: number
 }
 
+const SIMULATOR_TIERS = CREDIT_CARD_TIERS.filter((tier) => tier.maxInstallments <= 12)
+
 export function tierFor(installments: number): CardTier {
-  const matching = CREDIT_CARD_TIERS.filter((tier) => installments > tier.minInstallments)
-  return matching[matching.length - 1] ?? CREDIT_CARD_TIERS[0]
+  return SIMULATOR_TIERS.find(
+    (tier) => installments >= tier.minInstallments && installments <= tier.maxInstallments,
+  ) as CardTier
 }
 
 export function simulate({ amount, installments, anticipate }: SimulationInput): SimulationResult {
