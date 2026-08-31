@@ -9,6 +9,10 @@ export function Header() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (cpf.trim() === '') {
+      setResult({ ok: false, message: 'Informe seu CPF para continuar.' })
+      return
+    }
     setResult(login(cpf))
   }
 
